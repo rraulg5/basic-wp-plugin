@@ -47,9 +47,6 @@ function basicwp_register_post_type() {
 		],
 		'supports'				=>	[
 			'title',
-			'editor',
-			'author',
-			'custom-fields'
 		],
 	];
 	register_post_type('job', $args);

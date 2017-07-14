@@ -16,3 +16,5 @@ if (! defined('ABSPATH')) {
 
 /*Register Custom Post Type*/
 require ( plugin_dir_path(__FILE__) . 'basic-wp-cpt.php');
+require ( plugin_dir_path(__FILE__) . 'basic-wp-render-admin.php');
+require ( plugin_dir_path(__FILE__) . 'basic-wp-fields.php');
