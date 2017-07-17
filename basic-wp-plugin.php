@@ -25,6 +25,9 @@ function basicwp_admin_enqueue_scripts() {
 	if (($pagenow == 'post.php' || $pagenow == 'post-new.php') && $typenow == 'job') {
 		wp_enqueue_style('basicwp-admin-css', plugins_url('css/admin-jobs.css', __FILE__));
 		wp_enqueue_script('basicwp-admin-js', plugins_url('js/admin-jobs.js', __FILE__), array('jquery', 'jquery-ui-datepicker'), '20170717', true);
+
+		wp_enqueue_script( 'basicwp-custom-quicktags', plugins_url( 'js/basicwp-quicktags.js', __FILE__ ), array( 'quicktags' ), '20150206', true );
+		wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
 	}
 }
 add_action('admin_enqueue_scripts', 'basicwp_admin_enqueue_scripts');

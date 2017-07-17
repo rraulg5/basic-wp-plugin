@@ -14,29 +14,35 @@ function basicwp_meta_callback($post) {
 	wp_nonce_field(basename(__FILE__), 'basicwp_jobs_nonce');
 	$basicwp_stored_meta = get_post_meta($post->ID);
 ?>
-	<div>
-		<div class="meta-row">
-			<div class="meta-th">
-				<label for="job_id" class="basicwp-row-title">Job ID</label>
-				<div class="meta-td">
-					<input type="text" name="job_id" id="job-id" value="<?php if ( ! empty ( $basicwp_stored_meta['job_id'] ) ) {
-					echo esc_attr( $basicwp_stored_meta['job_id'][0] );
-				} ?>">
-				</div>
-			</div>
+	<div class="meta-row">
+		<div class="meta-th">
+			<label for="job_id" class="basicwp-row-title">Job ID</label>
 		</div>
-		<div class="meta-row">
-			<div class="meta-th">
-				<label for="date_listed" class="basicwp-row-title">Date Listed</label>
-				<div class="meta-td">
-					<input type="text" name="date_listed" id="date-listed" value="<?php if ( ! empty ( $basicwp_stored_meta['date_listed'] ) ) {
-					echo esc_attr( $basicwp_stored_meta['date_listed'][0] );
-				} ?>">
-				</div>
-			</div>
+		<div class="meta-td">
+			<input type="text" name="job_id" id="job-id" value="<?php if ( ! empty ( $basicwp_stored_meta['job_id'] ) ) {
+				echo esc_attr( $basicwp_stored_meta['job_id'][0] );
+			} ?>">
 		</div>
 	</div>
 	<div class="meta-row">
+		<div class="meta-th">
+			<label for="date_listed" class="basicwp-row-title">Date Listed</label>
+		</div>
+		<div class="meta-td">
+			<input type="text" name="date_listed" id="date-listed" value="<?php if ( ! empty ( $basicwp_stored_meta['date_listed'] ) ) {
+				echo esc_attr( $basicwp_stored_meta['date_listed'][0] );
+			} ?>">
+		</div>
+	</div>
+	<div class="meta-row">
+		<div class="meta-th">
+			<label for="application_deadline" class="basicwp-row-title">Application Deadline</label>
+		</div>
+		<div class="meta-td">
+			<input type="text"  name="application_deadline" id="application_deadline" value="<?php if ( ! empty ( $basicwp_stored_meta['application_deadline'] ) ) echo esc_attr( $basicwp_stored_meta['application_deadline'][0] ); ?>"/>
+		</div>
+	</div>
+	<div class="meta">
 		<div class="meta-th">
 			<span>Principle Duties</span>
 		</div>
@@ -52,6 +58,36 @@ function basicwp_meta_callback($post) {
 			wp_editor($content, $editor, $settings);
 		?>
 	</div>
+	<div class="meta-row">
+		<div class="meta-th">
+			<label for="minimum_requirements" class="basicwp-row-title">Minimum Requirements</label>
+		</div>
+		<div class="meta-td">
+			<textarea name="minimum_requirements" id="minimum-requirements" class="basicwp-textarea">
+				<?php if ( ! empty ( $basicwp_stored_meta['minimum_requirements'] ) ) echo esc_attr( $basicwp_stored_meta['minimum_requirements'][0] ); ?>
+			</textarea>
+		</div>
+	</div>
+	<div class="meta-row">
+		<div class="meta-th">
+			<label for="preferred_requirements" class="basicwp-row-title">Preferred Requirements</label>
+		</div>
+		<div class="meta-td">
+			<textarea name="preferred_requirements" id="preferred-requirements" class="basicwp-textarea">
+				<?php if ( ! empty ( $basicwp_stored_meta['preferred_requirements'] ) ) echo esc_attr( $basicwp_stored_meta['preferred_requirements'][0] ); ?>
+			</textarea>
+		</div>
+	</div>
+	<div class="meta-row">
+        <div class="meta-th">
+          <label for="relocation-assistance" class="basicwp-row-title">Relocation Assistance</label>
+        </div>
+        <div class="meta-td">
+          <select name="relocation_assistance" id="relocation-assistance">
+	          <option value="Yes" <?php if ( ! empty ( $basicwp_stored_meta['relocation_assistance'] ) ) selected( $basicwp_stored_meta['relocation_assistance'][0], 'Yes' ); ?>>Yes</option>';
+	          <option value="No" <?php if ( ! empty ( $basicwp_stored_meta['relocation_assistance'] ) ) selected( $basicwp_stored_meta['relocation_assistance'][0], 'No' ); ?>>No</option>';
+          </select>
+    </div> 
 <?php
 }
 
@@ -73,6 +109,18 @@ function basicwp_meta_save($post_id) {
     }
     if ( isset( $_POST[ 'principle_duties' ] ) ) {
     	update_post_meta( $post_id, 'principle_duties', sanitize_text_field( $_POST[ 'principle_duties' ] ) );
+    }
+    if ( isset( $_POST[ 'application_deadline' ] ) ) {
+    	update_post_meta( $post_id, 'application_deadline', sanitize_text_field( $_POST[ 'application_deadline' ] ) );
+    }
+    if ( isset( $_POST[ 'minimum_requirements' ] ) ) {
+    	update_post_meta( $post_id, 'minimum_requirements', sanitize_text_field( $_POST[ 'minimum_requirements' ] ) );
+    }
+    if ( isset( $_POST[ 'preferred_requirements' ] ) ) {
+    	update_post_meta( $post_id, 'preferred_requirements', sanitize_text_field( $_POST[ 'preferred_requirements' ] ) );
+    }
+    if ( isset( $_POST[ 'relocation_assistance' ] ) ) {
+    	update_post_meta( $post_id, 'relocation_assistance', sanitize_text_field( $_POST[ 'relocation_assistance' ] ) );
     }
 }
 add_action('save_post', 'basicwp_meta_save');
