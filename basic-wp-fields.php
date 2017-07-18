@@ -19,7 +19,7 @@ function basicwp_meta_callback($post) {
 			<label for="job_id" class="basicwp-row-title">Job ID</label>
 		</div>
 		<div class="meta-td">
-			<input type="text" name="job_id" id="job-id" value="<?php if ( ! empty ( $basicwp_stored_meta['job_id'] ) ) {
+			<input type="text" name="job_id" class="basicwp-row-content" id="job-id" value="<?php if ( ! empty ( $basicwp_stored_meta['job_id'] ) ) {
 				echo esc_attr( $basicwp_stored_meta['job_id'][0] );
 			} ?>">
 		</div>
@@ -29,7 +29,7 @@ function basicwp_meta_callback($post) {
 			<label for="date_listed" class="basicwp-row-title">Date Listed</label>
 		</div>
 		<div class="meta-td">
-			<input type="text" name="date_listed" id="date-listed" value="<?php if ( ! empty ( $basicwp_stored_meta['date_listed'] ) ) {
+			<input type="text" name="date_listed" size="10" class="basicwp-row-content datepicker" id="date-listed" value="<?php if ( ! empty ( $basicwp_stored_meta['date_listed'] ) ) {
 				echo esc_attr( $basicwp_stored_meta['date_listed'][0] );
 			} ?>">
 		</div>
@@ -39,7 +39,7 @@ function basicwp_meta_callback($post) {
 			<label for="application_deadline" class="basicwp-row-title">Application Deadline</label>
 		</div>
 		<div class="meta-td">
-			<input type="text"  name="application_deadline" id="application_deadline" value="<?php if ( ! empty ( $basicwp_stored_meta['application_deadline'] ) ) echo esc_attr( $basicwp_stored_meta['application_deadline'][0] ); ?>"/>
+			<input type="text"  name="application_deadline" size="10" class="basicwp-row-content datepicker" id="application_deadline" value="<?php if ( ! empty ( $basicwp_stored_meta['application_deadline'] ) ) echo esc_attr( $basicwp_stored_meta['application_deadline'][0] ); ?>"/>
 		</div>
 	</div>
 	<div class="meta">
