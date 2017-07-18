@@ -31,15 +31,3 @@ function basicwp_admin_enqueue_scripts() {
 	}
 }
 add_action('admin_enqueue_scripts', 'basicwp_admin_enqueue_scripts');
-
-function basicwp_add_submenu_page() {
-	add_submenu_page(
-		'edit.php?post_type=job',
-		'Reorder Jobs',
-		'Reorder Jobs',
-		'manage_options',
-		'reorder_jobs',
-		'basicwp_reorder_admin_jobs_callback'
-	);
-}
-add_action('admin_menu', 'basicwp_add_submenu_page');
