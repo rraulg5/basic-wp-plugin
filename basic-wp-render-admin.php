@@ -24,7 +24,21 @@ function basicwp_reorder_admin_jobs_callback() {
 	);
 
 	$job_listing = new WP_Query($args);
-	echo '<pre>';
-	var_dump($job_listing);
-	echo '</pre>';
+	?>
+		<div id="job-sort" class="wrap">
+			<div id="icon-job-admin" class="icon32"><br /></div>
+			<h2>Sort Job Positions <img src="<?php echo esc_url(admin_url() . '/images/loading.gif') ?>" alt="loading"></h2>
+			<?php if($job_listing->have_posts()) : ?>
+				<p></p>
+				<ul id="custom-type-list">
+					<p><strong>Note:</strong> this only affects the Jobs listed using the shortcode functions</p>
+					<?php while($job_listing->have_posts()) : $job_listing->the_post(); ?>
+						<li data-id="<?php the_id(); ?>"><?php the_title(); ?></li>
+					<?php endwhile; ?>
+				</ul>
+			<?php else: ?>
+				<p>You have no Jobs to sort.</p>
+			<?php endif; ?>
+		</div>
+	<?php
 }
