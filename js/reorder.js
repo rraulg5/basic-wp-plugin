@@ -7,6 +7,7 @@
 		sortList.sortable({
 			update: function(event, ui) {
 				loading.show();
+				
 
 				$.ajax({
 					url: ajaxurl,
@@ -14,14 +15,18 @@
 					dataType: 'json',
 					data: {
 						action: 'save_post',
-						order: sortList.sortable('toArray').toString()
+						order: sortList.sortable('toArray').toString(),
+						security: WP_JOB_LISTING.security
 					},
 					success: function(response) {
 						loading.hide();
-						pageTitle.after('<div class="updated"><p>Jobs sort order has been saved!</p></div>');
+						$('#message').remove();
+						pageTitle.after('<div id="message" class="updated"><p>' + WP_JOB_LISTING.success_msg + '</p></div>');
 					},
 					error: function(error) {
-						pageTitle.after('<div class="error"><p>There was an error saving the sort order</p></div>');
+						loading.hide();
+						$('#message').remove();
+						pageTitle.after('<div id="message" class="error"><p>' + WP_JOB_LISTING.fail_msg + '</p></div>');
 					}
 				});
 			}
