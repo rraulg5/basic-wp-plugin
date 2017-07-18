@@ -27,7 +27,7 @@ function basicwp_reorder_admin_jobs_callback() {
 	?>
 		<div id="job-sort" class="wrap">
 			<div id="icon-job-admin" class="icon32"><br /></div>
-			<h2>Sort Job Positions <img id="loading-animation" src="<?php echo esc_url(admin_url() . '/images/loading.gif') ?>" alt="loading"></h2>
+			<h2 id="page-title">Sort Job Positions <img id="loading-animation" src="<?php echo esc_url(admin_url() . '/images/loading.gif') ?>" alt="loading"></h2>
 			<?php if($job_listing->have_posts()) : ?>
 				<p></p>
 				<ul id="custom-type-list">
