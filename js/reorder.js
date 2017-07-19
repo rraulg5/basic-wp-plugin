@@ -15,13 +15,18 @@
 					dataType: 'json',
 					data: {
 						action: 'save_post',
-						order: sortList.sortable('toArray').toString(),
+						order: sortList.sortable('toArray'),
 						security: WP_JOB_LISTING.security
 					},
 					success: function(response) {
 						loading.hide();
 						$('#message').remove();
-						pageTitle.after('<div id="message" class="updated"><p>' + WP_JOB_LISTING.success_msg + '</p></div>');
+
+						if (response.success) {
+							pageTitle.after('<div id="message" class="updated"><p>' + WP_JOB_LISTING.success_msg + '</p></div>');
+						} else {
+							pageTitle.after('<div id="message" class="error"><p>' + WP_JOB_LISTING.fail_msg + '</p></div>');
+						}
 					},
 					error: function(error) {
 						loading.hide();

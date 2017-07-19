@@ -13,7 +13,6 @@ function basicwp_add_submenu_page() {
 add_action('admin_menu', 'basicwp_add_submenu_page');
 
 function basicwp_reorder_admin_jobs_callback() {
-
 	$args = array(
 		'post_type'					=>	'job',
 		'orderby'					=>	'menu_order',
@@ -33,7 +32,7 @@ function basicwp_reorder_admin_jobs_callback() {
 				<ul id="custom-type-list">
 					<p><strong>Note:</strong> this only affects the Jobs listed using the shortcode functions</p>
 					<?php while($job_listing->have_posts()) : $job_listing->the_post(); ?>
-						<li data-id="<?php esc_attr(the_id()); ?>"><?php esc_html(the_title()); ?></li>
+						<li id="<?php esc_attr(the_id()); ?>"><?php esc_html(the_title()); ?></li>
 					<?php endwhile; ?>
 				</ul>
 			<?php else: ?>
@@ -42,3 +41,30 @@ function basicwp_reorder_admin_jobs_callback() {
 		</div>
 	<?php
 }
+
+function basicwp_save_reorder() {
+	if (! check_ajax_referer('wp-job-order', 'security')) {
+		return wp_send_json_error('Invalid Nonce');
+	}
+
+	if (! current_user_can('manage_options')) {
+		return wp_send_json_error('You are not allow to do this');
+	}
+
+	$order = $_POST['order'];
+	$counter = 0;
+
+	foreach ($order as $item_id) {
+		$post = array(
+			'ID' => (int)$item_id,
+			'menu_order' => $counter,
+		);
+
+		wp_update_post($post);
+
+		$counter++;
+	}
+
+	wp_send_json_success('Post Saved');
+}
+add_action('wp_ajax_save_post', 'basicwp_save_reorder');
