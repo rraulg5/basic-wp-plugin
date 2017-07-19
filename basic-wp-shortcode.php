@@ -30,6 +30,11 @@ function basicwp_job_taxonomy_list($atts, $content = null) {
 add_shortcode('job_location_list', 'basicwp_job_taxonomy_list');
 
 function basicwp_list_job_by_location($atts, $content = null) {
+
+	if (! isset($atts['location'])) {
+		return '<p class="job-error">You must provide a location for this shortcode to work.</p>';
+	}
+
 	$atts = shortcode_atts(array(
 		'title' => 'Current Job Openings in',
 		'count' => 5,
@@ -55,6 +60,33 @@ function basicwp_list_job_by_location($atts, $content = null) {
     );
 
     $jobs_by_location = new WP_Query( $args );
-    var_dump($jobs_by_location->get_posts());
+
+    if ($jobs_by_location->have_posts()) {
+    	$location = str_replace('-', ' ', $atts['location']);
+
+    	$displayByLocation = '<div id="jobs-by-location">';
+    	$displayByLocation.= '<h4>' . esc_html__($atts['title']) . '&nbsp;' . esc_html__(ucwords($location)) . '</h4>';
+    	$displayByLocation.= '<ul>';
+
+    	while ($jobs_by_location->have_posts()) : $jobs_by_location->the_post();
+    		global $post;
+
+    		$deadline = get_post_meta(get_the_ID(), 'application_deadline', true);
+    		$title = get_the_title();
+    		$slug = get_permalink();
+
+    		$displayByLocation .= '<li class="job-listing">';
+            $displayByLocation .= sprintf( '<a href="%s">%s</a>&nbsp&nbsp', esc_url( $slug ), esc_html__( $title ) );
+            $displayByLocation .= '<span>' . esc_html( $deadline ) . '</span>';
+            $displayByLocation .= '</li>';
+
+    	endwhile;
+
+    	$displayByLocation.= '</ul></div>';
+    }
+
+    wp_reset_postdata();
+
+    return $displayByLocation;
 }
 add_shortcode('jobs_by_location', 'basicwp_list_job_by_location');
