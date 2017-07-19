@@ -1,6 +1,6 @@
 <?php
 
-function basicwp_sample_shortcode($atts, $content = null) {
+function basicwp_job_taxonomy_list($atts, $content = null) {
 	$atts = shortcode_atts(
 		array(
 			'title' => 'Default title',
@@ -27,4 +27,34 @@ function basicwp_sample_shortcode($atts, $content = null) {
 
 	return $displayList;
 }
-add_shortcode('job_listing', 'basicwp_sample_shortcode');
+add_shortcode('job_location_list', 'basicwp_job_taxonomy_list');
+
+function basicwp_list_job_by_location($atts, $content = null) {
+	$atts = shortcode_atts(array(
+		'title' => 'Current Job Openings in',
+		'count' => 5,
+		'location' => '',
+		'pagination' => false
+	), $atts);
+
+	$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+
+	$args = array(
+        'post_type' 		=> 'job',
+        'post_status'       => 'publish',
+        'no_found_rows'     => $pagination,
+        'posts_per_page'    => $atts[ 'count' ],
+        'paged'			    => $paged,
+        'tax_query' 		=> array(
+            array(
+                'taxonomy' => 'location',
+                'field'    => 'slug',
+                'terms'    => $atts[ 'location' ],
+            ),
+        )
+    );
+
+    $jobs_by_location = new WP_Query( $args );
+    var_dump($jobs_by_location->get_posts());
+}
+add_shortcode('jobs_by_location', 'basicwp_list_job_by_location');
