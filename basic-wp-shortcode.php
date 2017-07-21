@@ -39,9 +39,10 @@ function basicwp_list_job_by_location($atts, $content = null) {
 		'title' => 'Current Job Openings in',
 		'count' => 5,
 		'location' => '',
-		'pagination' => false
+		'pagination' => 'off'
 	), $atts);
 
+    $pagination = $atts['pagination'] == 'on' ? false: true;
 	$paged = get_query_var('paged') ? get_query_var('paged') : 1;
 
 	$args = array(
@@ -61,7 +62,7 @@ function basicwp_list_job_by_location($atts, $content = null) {
 
     $jobs_by_location = new WP_Query( $args );
 
-    if ($jobs_by_location->have_posts()) {
+    if ($jobs_by_location->have_posts()) :
     	$location = str_replace('-', ' ', $atts['location']);
 
     	$displayByLocation = '<div id="jobs-by-location">';
@@ -83,9 +84,23 @@ function basicwp_list_job_by_location($atts, $content = null) {
     	endwhile;
 
     	$displayByLocation.= '</ul></div>';
-    }
+
+    else:
+        $displayByLocation = sprintf( __( '<p class="job-error">Sorry, no jobs listed in %s where found.</p>' ), esc_html__( ucwords( str_replace( '-', ' ', $atts[ 'location' ] ) ) ) );
+    endif;
 
     wp_reset_postdata();
+
+    if ($jobs_by_location->max_num_pages > 1 && is_page()) {
+        $displayByLocation .= '<nav class="prev-next-posts">';
+        $displayByLocation .= '<div class="nav-pervious">';
+        $displayByLocation .= get_next_posts_link( __( '<span class="meta-nav">&larr;</span> Previous' ), $jobs_by_location->max_num_pages );
+        $displayByLocation .= '</div>';
+        $displayByLocation .= '<div class="next-posts-link">';
+        $displayByLocation .= get_previous_posts_link( __( 'Next <span class="meta-nav">&rarr;</span>' ) );
+        $displayByLocation .= '</div>';
+        $displayByLocation .= '</nav>';
+    }
 
     return $displayByLocation;
 }
